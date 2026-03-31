@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/check-file-size.sh",
+            "timeout": 5,
+            "statusMessage": "Checking file size..."
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/check-codebase-health.sh .",
+            "timeout": 15,
+            "statusMessage": "Checking codebase health..."
+          }
+        ]
+      }
+    ]
+  }
+}
