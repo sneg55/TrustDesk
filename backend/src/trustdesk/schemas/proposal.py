@@ -1,7 +1,7 @@
 """TradeProposal — submitted by any agent through the Agent Interface."""
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime  # noqa: TC003
 from typing import Literal
 
 from pydantic import BaseModel

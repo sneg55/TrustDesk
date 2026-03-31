@@ -1,7 +1,7 @@
 """SignalPayload — output of the Signal Engine, input to the Strategist."""
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime  # noqa: TC003
 from typing import Any, Literal
 
 from pydantic import BaseModel

@@ -4,9 +4,13 @@ InMemoryQueue for single-process dev/testing.
 PostgreSQL-backed queue for production (desk + risk_manager as separate processes).
 """
 from __future__ import annotations
+
 import asyncio
 from collections import defaultdict
-from typing import AsyncIterator
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import AsyncIterator
 
 
 class InMemoryQueue:

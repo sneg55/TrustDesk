@@ -31,8 +31,12 @@ class ValidationError(TrustDeskError):
     """Schema or input validation failure."""
 
 
-class RiskCheckFailed(TrustDeskError):
+class RiskCheckFailedError(TrustDeskError):
     """Hard limit breach — trade must be rejected."""
+
+
+# Backward-compatible alias
+RiskCheckFailed = RiskCheckFailedError
 
 
 def error_message(exc: object) -> str:

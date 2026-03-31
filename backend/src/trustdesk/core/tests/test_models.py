@@ -1,6 +1,5 @@
 from datetime import datetime
 
-import pytest
 from sqlalchemy import inspect
 
 from trustdesk.core.models import Base, RetryQueue, Signal, Trade

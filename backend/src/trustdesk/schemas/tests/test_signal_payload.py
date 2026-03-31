@@ -1,7 +1,7 @@
 """Tests for SignalPayload, Alignment, AlignmentBreakdown, and DerivedValues schemas."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 from pydantic import ValidationError
@@ -48,7 +48,7 @@ def _derived_values(**overrides) -> dict:
 def _signal_payload(**overrides) -> dict:
     """Return a dict with all required fields for SignalPayload."""
     base = {
-        "timestamp": datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+        "timestamp": datetime(2024, 1, 15, 9, 30, 0, tzinfo=UTC),
         "pair": "BTC/USD",
         "price": 42000.0,
         "regime": "TRENDING_UP",

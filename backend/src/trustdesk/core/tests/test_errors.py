@@ -3,7 +3,7 @@ from trustdesk.core.errors import (
     IPFSError,
     KrakenError,
     LLMUnavailableError,
-    RiskCheckFailed,
+    RiskCheckFailedError,
     TrustDeskError,
     ValidationError,
     error_message,
@@ -17,7 +17,7 @@ def test_error_hierarchy() -> None:
     assert issubclass(LLMUnavailableError, TrustDeskError)
     assert issubclass(IPFSError, TrustDeskError)
     assert issubclass(ValidationError, TrustDeskError)
-    assert issubclass(RiskCheckFailed, TrustDeskError)
+    assert issubclass(RiskCheckFailedError, TrustDeskError)
 
 
 def test_error_message_from_exception() -> None:

@@ -1,7 +1,12 @@
 """PostgreSQL connection and session factory."""
 from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-from trustdesk.core.config import TrustDeskConfig
+
+if TYPE_CHECKING:
+    from trustdesk.core.config import TrustDeskConfig
 
 
 def create_engine(config: TrustDeskConfig):

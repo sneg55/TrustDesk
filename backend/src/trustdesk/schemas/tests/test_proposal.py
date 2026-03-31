@@ -1,7 +1,7 @@
 """Tests for TradeProposal schema."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 from pydantic import ValidationError
@@ -14,7 +14,7 @@ def _minimal_proposal(**overrides) -> dict:
     base = {
         "agent_id": "agent-alpha-01",
         "proposal_id": "prop-001",
-        "timestamp": datetime(2024, 1, 15, 9, 30, 0, tzinfo=timezone.utc),
+        "timestamp": datetime(2024, 1, 15, 9, 30, 0, tzinfo=UTC),
         "action": "BUY",
         "pair": "BTC/USD",
         "size_pct": 2.5,
@@ -150,7 +150,7 @@ def test_model_dump_contains_expected_keys() -> None:
 
 def test_timestamp_is_datetime() -> None:
     """timestamp field accepts datetime objects."""
-    ts = datetime(2024, 6, 1, 12, 0, 0, tzinfo=timezone.utc)
+    ts = datetime(2024, 6, 1, 12, 0, 0, tzinfo=UTC)
     proposal = TradeProposal(**_minimal_proposal(timestamp=ts))
     assert proposal.timestamp == ts
 

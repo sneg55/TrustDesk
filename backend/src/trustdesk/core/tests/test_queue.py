@@ -1,4 +1,5 @@
 import asyncio
+import contextlib
 
 import pytest
 
@@ -122,10 +123,8 @@ async def test_cancellation_triggers_finally(queue: InMemoryQueue) -> None:
     await asyncio.sleep(0.05)
 
     task.cancel()
-    try:
+    with contextlib.suppress(asyncio.CancelledError):
         await task
-    except asyncio.CancelledError:
-        pass
 
     # finally block must have removed the subscriber
     assert len(queue._channels["cancel_channel"]) == 0

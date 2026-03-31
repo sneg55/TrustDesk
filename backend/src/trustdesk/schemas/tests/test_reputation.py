@@ -1,7 +1,7 @@
 """Tests for ReputationFeedback, TierDefinition schemas, and PositionCallback."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 from pydantic import ValidationError
@@ -174,7 +174,7 @@ class TestPositionCallback:
         base = {
             "event": "FILLED",
             "proposal_id": "prop-001",
-            "timestamp": datetime(2024, 1, 15, 10, 0, 0, tzinfo=timezone.utc),
+            "timestamp": datetime(2024, 1, 15, 10, 0, 0, tzinfo=UTC),
             "details": {"fill_price": 42050.0, "size": 0.025},
         }
         base.update(overrides)
@@ -220,7 +220,7 @@ class TestPositionCallback:
         cb = PositionCallback(
             event="STOP_TRIGGERED",
             proposal_id="prop-007",
-            timestamp=datetime(2024, 1, 16, 14, 30, 0, tzinfo=timezone.utc),
+            timestamp=datetime(2024, 1, 16, 14, 30, 0, tzinfo=UTC),
             details={
                 "stop_price": 41000.0,
                 "fill_price": 40950.0,
@@ -236,7 +236,7 @@ class TestPositionCallback:
         cb = PositionCallback(
             event="DEMOTION",
             proposal_id="prop-999",
-            timestamp=datetime(2024, 2, 1, 0, 0, 0, tzinfo=timezone.utc),
+            timestamp=datetime(2024, 2, 1, 0, 0, 0, tzinfo=UTC),
             details={
                 "previous_tier": "ESTABLISHED",
                 "new_tier": "UNPROVEN",
