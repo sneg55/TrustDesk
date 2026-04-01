@@ -69,3 +69,25 @@ class TestChainClientGas:
         balance, priority = await client.check_agent_gas()
         assert balance == pytest.approx(0.2)
         assert priority == WritePriority.NORMAL
+
+    async def test_check_validator_gas(self) -> None:
+        w3 = _mock_w3()
+        with patch("trustdesk.adapters.chain.client.AsyncWeb3", return_value=w3):
+            client = ChainClient(_config())
+        balance, priority = await client.check_validator_gas()
+        assert balance == pytest.approx(0.2)
+        assert priority == WritePriority.NORMAL
+
+    async def test_should_write_agent(self) -> None:
+        w3 = _mock_w3()
+        with patch("trustdesk.adapters.chain.client.AsyncWeb3", return_value=w3):
+            client = ChainClient(_config())
+        result = await client.should_write("agent", WritePriority.NORMAL)
+        assert result is True
+
+    async def test_should_write_validator(self) -> None:
+        w3 = _mock_w3()
+        with patch("trustdesk.adapters.chain.client.AsyncWeb3", return_value=w3):
+            client = ChainClient(_config())
+        result = await client.should_write("validator", WritePriority.NORMAL)
+        assert result is True

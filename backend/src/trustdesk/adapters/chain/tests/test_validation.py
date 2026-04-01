@@ -84,6 +84,23 @@ class TestValidationRegistryRespond:
         )
 
 
+class TestValidationRegistryRespondFailure:
+    async def test_respond_validation_failure(self) -> None:
+        contract = _mock_contract()
+        fn = MagicMock()
+        fn.transact = AsyncMock(side_effect=Exception("insufficient gas"))
+        contract.functions.respondValidation = MagicMock(return_value=fn)
+
+        registry = ValidationRegistry(contract)
+        with pytest.raises(ChainError, match="insufficient gas"):
+            await registry.respond_validation(
+                proposal_id="prop-1",
+                approved=True,
+                evidence_uri="ipfs://QmVerdict",
+                tx_params={"from": "0x" + "bb" * 20},
+            )
+
+
 class TestValidationRegistryQuery:
     async def test_get_validation_status(self) -> None:
         contract = _mock_contract()
