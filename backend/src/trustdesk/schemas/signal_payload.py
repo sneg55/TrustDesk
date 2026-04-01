@@ -1,26 +1,27 @@
 """SignalPayload — output of the Signal Engine, input to the Strategist."""
 from __future__ import annotations
 
-from datetime import datetime  # noqa: TC003
-from typing import Any, Literal
+import enum
+from typing import Any
 
 from pydantic import BaseModel
 
 
+class Alignment(enum.Enum):
+    """Signal alignment grade."""
+
+    STRONG = "STRONG"
+    MODERATE = "MODERATE"
+    WEAK = "WEAK"
+    NO_SIGNAL = "NO_SIGNAL"
+
+
 class AlignmentBreakdown(BaseModel):
-    ema_direction: bool
-    adx_strength: bool
-    volume_confirmation: bool
-    obv_trend_match: bool
-    book_imbalance_favorable: bool
-
-
-class Alignment(BaseModel):
-    score: float
-    grade: Literal["STRONG", "MODERATE", "WEAK", "NO_SIGNAL"]
-    signals_agreeing: int
-    signals_total: int = 5
-    breakdown: AlignmentBreakdown
+    ema_crossover: bool
+    adx_trending: bool
+    volume_confirmed: bool
+    obv_aligned: bool
+    book_imbalance_aligned: bool
 
 
 class DerivedValues(BaseModel):
@@ -30,12 +31,11 @@ class DerivedValues(BaseModel):
 
 
 class SignalPayload(BaseModel):
-    timestamp: datetime
     pair: str
     price: float
-    regime: Literal["TRENDING_UP", "TRENDING_DOWN", "RANGING", "VOLATILE"]
-    regime_confidence: float
-    regime_changed: bool
-    signals: dict[str, Any]
+    regime: str
     alignment: Alignment
+    alignment_score: float
+    breakdown: AlignmentBreakdown
     derived: DerivedValues
+    indicators: dict[str, Any]

@@ -10,10 +10,8 @@ class TestMCPRunner:
         assert runner.is_available() is False
 
     async def test_run_raises_not_implemented(self) -> None:
+        import pytest
+
         runner = MCPRunner()
-        try:
+        with pytest.raises(NotImplementedError):
             await runner.run("ticker", ["--pair", "XXBTZUSD"])
-            msg = "Expected NotImplementedError"
-            raise AssertionError(msg)
-        except NotImplementedError:
-            pass
