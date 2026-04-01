@@ -17,6 +17,7 @@
 | Dashboard | Vite + React + Tailwind + Recharts | Pure client-side SPA, no SSR needed |
 | Kraken CLI | Assume pre-installed, adapter interface | Paper trading needs no API keys, built-in MCP server, designed for AI agents |
 | AI-driven dev approach | Hybrid single-package with standardized module internals | Small files, co-located tests, one schema per file, parallel agent work |
+| Market intelligence | Strykr/PRISM API for asset resolution, signals, and risk metrics | Hackathon sponsor tool, free credits, 20+ data sources, enhances signal quality |
 
 ---
 
@@ -108,9 +109,14 @@ TrustDesk/
 │   │   │   │   ├── validation.py      # Validation Registry (request/response)
 │   │   │   │   ├── gas_monitor.py     # Balance check, tiered write priority
 │   │   │   │   └── tests/
-│   │   │   └── ipfs/
+│   │   │   ├── ipfs/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── client.py          # Pinata upload, pin management
+│   │   │   │   └── tests/
+│   │   │   └── strykr/
 │   │   │       ├── __init__.py
-│   │   │       ├── client.py          # Pinata upload, pin management
+│   │   │       ├── client.py          # PRISM API: resolve, signals, risk
+│   │   │       ├── types.py           # ResolvedAsset, PrismSignal, PrismRisk
 │   │   │       └── tests/
 │   │   │
 │   │   ├── schemas/                   # Shared Pydantic models (one per file)
@@ -329,6 +335,7 @@ class PositionCallback(BaseModel):
 | `adapters/chain` | web3.py calls, gas monitoring, tiered write priority | Base Sepolia RPC |
 | `adapters/ipfs` | Pinata uploads, pin management, CID storage | Pinata API |
 | `adapters/anthropic` | Claude Sonnet 4 calls, structured output parsing | Anthropic API |
+| `adapters/strykr` | PRISM asset resolution, AI signals, risk metrics | Strykr/PRISM API |
 | `core` | Config, errors, logging, DB, internal queue | PostgreSQL |
 | `api` | FastAPI app, WebSocket streaming to dashboard | `core/db`, event bus |
 
@@ -439,6 +446,23 @@ class IPFSClient:
     async def repin_if_needed(self, cids: list[str]) -> list[str]
 ```
 
+### Strykr/PRISM (`adapters/strykr/client.py`)
+
+Hackathon sponsor market intelligence API. 20+ data sources, sub-100ms latency. PRISM resolves any asset identifier to a canonical identity. Provides AI signals and risk metrics as supplementary data for the Signal Engine and Risk Manager.
+
+```python
+class StrykrClient:
+    async def resolve(self, symbol: str) -> ResolvedAsset    # Canonical asset identity + venues
+    async def signals(self, symbol: str) -> PrismSignal      # AI signals: direction, strength, RSI, MACD, Bollinger
+    async def risk(self, symbol: str) -> PrismRisk            # Volatility, Sharpe, Sortino, drawdown metrics
+    async def close(self) -> None
+```
+
+Integration points:
+- **Orchestrator**: resolve agent-submitted symbols via PRISM before passing to Kraken
+- **Signal Engine**: `/signals/{symbol}` as supplementary alignment data (external AI consensus)
+- **Risk Manager**: `/risk/{symbol}` for external volatility and drawdown cross-checks
+
 ---
 
 ## Core Infrastructure
@@ -533,13 +557,13 @@ cd dashboard && npm run dev                   # Terminal 3: dashboard
 | fastapi + uvicorn | HTTP + WebSocket server |
 | websockets | WebSocket support |
 | pandas | Signal Engine data manipulation |
-| TA-Lib | Technical indicator calculations |
+| pandas (replaces TA-Lib) | Technical indicator calculations (pure Python, no C dependency) |
 | web3 | ERC-8004 on-chain calls |
 | sqlalchemy[asyncio] + asyncpg | PostgreSQL async |
 | alembic | Database migrations |
 | pydantic | Schema validation |
 | structlog | Structured logging |
-| httpx | Pinata API calls |
+| httpx | Pinata + Strykr/PRISM API calls |
 | ruff | Linting + formatting (dev) |
 | pytest + pytest-asyncio | Testing (dev) |
 
@@ -590,7 +614,8 @@ TRUSTDESK_VALIDATION_REGISTRY=
 TRUSTDESK_OPEN_VALIDATOR=
 PINATA_API_KEY=
 PINATA_API_SECRET=
-DATABASE_URL=postgresql://trustdesk:trustdesk@localhost:5432/trustdesk
+PRISM_API_KEY=
+DATABASE_URL=postgresql+asyncpg://trustdesk:trustdesk@localhost:5433/trustdesk
 TRUSTDESK_GAS_CHECK_INTERVAL=1800
 TRUSTDESK_SIGNAL_INTERVAL=300
 TRUSTDESK_LLM_MODEL=claude-sonnet-4-20250514
