@@ -55,6 +55,15 @@ def _try_anthropic(config: TrustDeskConfig):
     return AnthropicClient(config)
 
 
+def _try_strykr(config: TrustDeskConfig):
+    """Try to initialize StrykrClient; return None if key not configured."""
+    if not config.prism_api_key:
+        logger.warning("PRISM_API_KEY not set — Strykr/PRISM disabled")
+        return None
+    from trustdesk.adapters.strykr.client import StrykrClient
+    return StrykrClient(config.prism_api_key)
+
+
 def main() -> None:
     """Start the TrustDesk desk process."""
     setup_logging()
@@ -67,6 +76,7 @@ def main() -> None:
     anthropic = _try_anthropic(config)
     chain = _try_chain(config)
     ipfs = _try_ipfs(config)
+    _strykr = _try_strykr(config)
 
     # -- Event bus for WebSocket --
     event_bus = EventBus()

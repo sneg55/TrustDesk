@@ -101,3 +101,21 @@ def test_config_signal_interval_default(monkeypatch: pytest.MonkeyPatch) -> None
     monkeypatch.delenv("TRUSTDESK_SIGNAL_INTERVAL", raising=False)
     config = TrustDeskConfig()
     assert config.signal_interval == 300
+
+
+def test_config_prism_api_key_default(monkeypatch: pytest.MonkeyPatch) -> None:
+    """prism_api_key defaults to empty string."""
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key")
+    monkeypatch.setenv("DATABASE_URL", "postgresql+asyncpg://test:test@localhost/test")
+    monkeypatch.delenv("PRISM_API_KEY", raising=False)
+    config = TrustDeskConfig()
+    assert config.prism_api_key == ""
+
+
+def test_config_prism_api_key_from_env(monkeypatch: pytest.MonkeyPatch) -> None:
+    """prism_api_key reads PRISM_API_KEY from environment."""
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key")
+    monkeypatch.setenv("DATABASE_URL", "postgresql+asyncpg://test:test@localhost/test")
+    monkeypatch.setenv("PRISM_API_KEY", "prism-secret-123")
+    config = TrustDeskConfig()
+    assert config.prism_api_key == "prism-secret-123"

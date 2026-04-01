@@ -38,6 +38,9 @@ class TrustDeskConfig(BaseSettings):
     pinata_api_key: str = ""
     pinata_api_secret: str = ""
 
+    # Strykr/PRISM
+    prism_api_key: str = ""
+
     # Database
     database_url: str = "postgresql+asyncpg://trustdesk:trustdesk@localhost:5432/trustdesk"
 
