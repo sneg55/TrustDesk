@@ -1,0 +1,31 @@
+"""Auditor constants."""
+
+# Score computation
+SCORE_MIN = 0
+SCORE_MAX = 100
+SCORE_BREAKEVEN = 50
+SCORE_PNL_MULTIPLIER = 20
+
+# PASS logging
+PASS_SCORE = 55
+PASS_RATE_LIMIT_SECONDS = 3600  # 1 hour
+
+# Reputation feedback types
+FEEDBACK_TRADE_OPENED = "TRADE_OPENED"
+FEEDBACK_TRADE_UPDATE = "TRADE_UPDATE"
+FEEDBACK_TRADE_CLOSED = "TRADE_CLOSED"
+FEEDBACK_PASS = "PASS"
+
+# Reputation tags
+TAG_TRADE_OPEN = "trade_open"
+TAG_TRADE_UPDATE = "trade_update"
+TAG_TRADE_CLOSE = "trade_close"
+TAG_PASS = "pass_summary"
+
+# Material change thresholds
+MATERIAL_PNL_THRESHOLD_PCT = 2.0
+
+# Retry queue
+RETRY_MAX_ATTEMPTS = 5
+RETRY_BASE_DELAY_SECONDS = 30
+RETRY_MAX_DELAY_SECONDS = 3600
