@@ -1,7 +1,7 @@
 """Unified Kraken CLI client. MCP primary, subprocess fallback."""
 from __future__ import annotations
 
-from typing import Any, Protocol
+from typing import TYPE_CHECKING, Any, Protocol
 
 from trustdesk.adapters.kraken.types import (
     Candle,
@@ -13,8 +13,10 @@ from trustdesk.adapters.kraken.types import (
     Trade,
     TradeRecord,
 )
-from trustdesk.core.config import TrustDeskConfig
 from trustdesk.core.logging import get_logger
+
+if TYPE_CHECKING:
+    from trustdesk.core.config import TrustDeskConfig
 
 log = get_logger(__name__)
 

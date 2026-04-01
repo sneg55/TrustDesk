@@ -1,6 +1,7 @@
 """Integration tests for the full FastAPI app."""
 import pytest
 from httpx import ASGITransport, AsyncClient
+
 from trustdesk.api.app import create_app
 from trustdesk.api.events import EventBus
 

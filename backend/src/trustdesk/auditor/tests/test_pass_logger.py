@@ -2,11 +2,6 @@
 
 from __future__ import annotations
 
-import time
-from unittest.mock import AsyncMock, patch
-
-import pytest
-
 from trustdesk.auditor.constants import PASS_RATE_LIMIT_SECONDS, PASS_SCORE
 from trustdesk.auditor.pass_logger import PassLogger
 from trustdesk.auditor.types import FeedbackStage, PassSummary

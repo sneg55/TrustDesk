@@ -2,7 +2,8 @@
 """Adaptive parameter adjustments and drawdown defense."""
 from __future__ import annotations
 
-from trustdesk.reputation.types import TierLimits
+from typing import TYPE_CHECKING
+
 from trustdesk.risk_manager.constants import (
     CONSECUTIVE_LOSS_THRESHOLD,
     DAILY_DRAWDOWN_ADAPTIVE_PCT,
@@ -14,6 +15,9 @@ from trustdesk.risk_manager.constants import (
     MIN_TRADE_INTERVAL_SECONDS,
 )
 from trustdesk.risk_manager.types import DrawdownLevel, PortfolioState, RiskParameters
+
+if TYPE_CHECKING:
+    from trustdesk.reputation.types import TierLimits
 
 
 def get_drawdown_level(drawdown_pct: float) -> DrawdownLevel:

@@ -3,16 +3,18 @@ from __future__ import annotations
 
 import json
 import time
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from anthropic import AsyncAnthropic
 
-from trustdesk.core.config import TrustDeskConfig
 from trustdesk.core.constants import ERROR_IDS
 from trustdesk.core.errors import LLMUnavailableError
 from trustdesk.core.logging import get_logger
 from trustdesk.schemas.proposal import TradeProposal
-from trustdesk.schemas.signal_payload import SignalPayload
+
+if TYPE_CHECKING:
+    from trustdesk.core.config import TrustDeskConfig
+    from trustdesk.schemas.signal_payload import SignalPayload
 
 log = get_logger(__name__)
 

@@ -3,10 +3,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 
 
-class DecisionType(str, Enum):
+class DecisionType(StrEnum):
     """Whether the strategist proposes a trade or passes."""
 
     PROPOSE = "PROPOSE"

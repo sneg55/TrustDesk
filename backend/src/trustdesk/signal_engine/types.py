@@ -4,9 +4,10 @@ from __future__ import annotations
 
 import enum
 from dataclasses import dataclass
-from typing import Protocol
+from typing import TYPE_CHECKING, Protocol
 
-import pandas as pd
+if TYPE_CHECKING:
+    import pandas as pd
 
 OHLC_REQUIRED_COLS = frozenset(
     {

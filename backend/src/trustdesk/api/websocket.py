@@ -3,9 +3,12 @@ from __future__ import annotations
 
 import asyncio
 import logging
+from typing import TYPE_CHECKING
+
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 
-from trustdesk.api.events import Event, EventBus
+if TYPE_CHECKING:
+    from trustdesk.api.events import Event, EventBus
 
 logger = logging.getLogger(__name__)
 

@@ -8,7 +8,6 @@ import pytest
 from trustdesk.adapters.chain.client import ChainClient
 from trustdesk.adapters.chain.types import WritePriority
 from trustdesk.core.config import TrustDeskConfig
-from trustdesk.core.errors import ChainError
 
 
 def _config() -> TrustDeskConfig:

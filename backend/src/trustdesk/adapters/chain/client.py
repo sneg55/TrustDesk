@@ -1,17 +1,19 @@
 """Unified chain client for ERC-8004 on Base Sepolia."""
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from web3 import AsyncWeb3
 
 from trustdesk.adapters.chain.gas_monitor import GasMonitor
 from trustdesk.adapters.chain.identity import IdentityRegistry
 from trustdesk.adapters.chain.reputation import ReputationRegistry
-from trustdesk.adapters.chain.types import WritePriority
 from trustdesk.adapters.chain.validation import ValidationRegistry
-from trustdesk.core.config import TrustDeskConfig
 from trustdesk.core.logging import get_logger
+
+if TYPE_CHECKING:
+    from trustdesk.adapters.chain.types import WritePriority
+    from trustdesk.core.config import TrustDeskConfig
 
 log = get_logger(__name__)
 

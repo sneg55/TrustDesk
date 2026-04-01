@@ -42,17 +42,23 @@ class TestSubprocessRunner:
         runner = SubprocessRunner()
         proc = _make_error_process("Error: invalid pair")
 
-        with patch("asyncio.create_subprocess_exec", AsyncMock(return_value=proc)):
-            with pytest.raises(KrakenError, match="invalid pair"):
-                await runner.run("ticker", ["--pair", "INVALID"])
+        mock = AsyncMock(return_value=proc)
+        with (
+            patch("asyncio.create_subprocess_exec", mock),
+            pytest.raises(KrakenError, match="invalid pair"),
+        ):
+            await runner.run("ticker", ["--pair", "INVALID"])
 
     async def test_run_invalid_json(self) -> None:
         runner = SubprocessRunner()
         proc = _make_process("not json at all")
 
-        with patch("asyncio.create_subprocess_exec", AsyncMock(return_value=proc)):
-            with pytest.raises(KrakenError, match="Invalid JSON"):
-                await runner.run("ticker", [])
+        mock = AsyncMock(return_value=proc)
+        with (
+            patch("asyncio.create_subprocess_exec", mock),
+            pytest.raises(KrakenError, match="Invalid JSON"),
+        ):
+            await runner.run("ticker", [])
 
     async def test_run_passes_args_correctly(self) -> None:
         runner = SubprocessRunner()

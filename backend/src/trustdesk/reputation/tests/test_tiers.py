@@ -1,6 +1,5 @@
 # backend/src/trustdesk/reputation/tests/test_tiers.py
 """Tests for tier definitions and constants."""
-import pytest
 
 from trustdesk.reputation.constants import (
     COOLDOWN_TRADES_REQUIRED,
@@ -9,7 +8,6 @@ from trustdesk.reputation.constants import (
     PROMOTION_SCORE,
 )
 from trustdesk.reputation.tiers import TIER_DEFINITIONS, TierName, get_tier_limits
-from trustdesk.reputation.types import TierLimits
 
 
 class TestTierConstants:

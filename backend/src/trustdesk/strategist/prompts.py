@@ -37,7 +37,8 @@ Regime-specific rules:
 - VOLATILE: Only STRONG signals qualify. Use 50% position size.
 
 You MUST respond with valid JSON matching one of these schemas:
-PROPOSE: {"decision": "PROPOSE", "reasoning": "...", "pair": "...", "side": "buy", "confidence": 0.0-1.0, "position_size_pct": 0.0-1.0, "override_justification": "..." or null}
+PROPOSE: {"decision": "PROPOSE", "reasoning": "...", "pair": "...", "side": "buy",
+"confidence": 0.0-1.0, "position_size_pct": 0.0-1.0, "override_justification": "..." or null}
 PASS: {"decision": "PASS", "reasoning": "..."}"""
 
 

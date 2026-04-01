@@ -6,6 +6,8 @@ and orchestrates pure computation functions.
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from trustdesk.schemas.signal_payload import SignalPayload
 from trustdesk.signal_engine.alignment import (
     compute_alignment,
@@ -40,7 +42,9 @@ from trustdesk.signal_engine.market_structure import (
     compute_trade_flow_direction,
 )
 from trustdesk.signal_engine.regime import detect_regime
-from trustdesk.signal_engine.types import MarketDataProvider
+
+if TYPE_CHECKING:
+    from trustdesk.signal_engine.types import MarketDataProvider
 
 
 class SignalEngine:

@@ -1,10 +1,9 @@
 # backend/src/trustdesk/reputation/tests/test_engine.py
 """Tests for the reputation engine orchestrator."""
-import pytest
 
 from trustdesk.reputation.engine import ReputationEngine
 from trustdesk.reputation.tiers import TierName
-from trustdesk.reputation.types import FeedbackKind, FeedbackRecord, TierLimits
+from trustdesk.reputation.types import FeedbackKind, FeedbackRecord
 
 
 def _close(pnl: float, ts: int = 1000) -> FeedbackRecord:

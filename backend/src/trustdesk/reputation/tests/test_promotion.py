@@ -1,6 +1,5 @@
 # backend/src/trustdesk/reputation/tests/test_promotion.py
 """Tests for promotion and demotion logic."""
-import pytest
 
 from trustdesk.reputation.constants import COOLDOWN_TRADES_REQUIRED
 from trustdesk.reputation.promotion import (
@@ -9,7 +8,7 @@ from trustdesk.reputation.promotion import (
     is_in_cooldown,
 )
 from trustdesk.reputation.tiers import TierName
-from trustdesk.reputation.types import FeedbackKind, FeedbackRecord, PromotionResult
+from trustdesk.reputation.types import FeedbackKind, FeedbackRecord
 
 
 def _make_feedback(

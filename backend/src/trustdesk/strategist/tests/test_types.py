@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from trustdesk.strategist.types import DecisionType, PassDecision, StrategistDecision
+from trustdesk.strategist.types import DecisionType, PassDecision
 
 
 class TestPassDecision:

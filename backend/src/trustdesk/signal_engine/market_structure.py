@@ -5,11 +5,14 @@ Pure functions. No side effects.
 
 from __future__ import annotations
 
-from trustdesk.signal_engine.types import (
-    OrderBookSnapshot,
-    TickerData,
-    TradeFlowData,
-)
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from trustdesk.signal_engine.types import (
+        OrderBookSnapshot,
+        TickerData,
+        TradeFlowData,
+    )
 
 
 def compute_book_imbalance(book: OrderBookSnapshot) -> float:

@@ -1,6 +1,5 @@
 # backend/src/trustdesk/risk_manager/tests/test_circuit_breaker.py
 """Tests for circuit breaker -- LLM unavailable mode."""
-import pytest
 
 from trustdesk.risk_manager.circuit_breaker import CircuitBreaker, CircuitState
 

@@ -2,12 +2,7 @@
 
 from __future__ import annotations
 
-import pytest
-
 from trustdesk.auditor.constants import (
-    FEEDBACK_TRADE_CLOSED,
-    FEEDBACK_TRADE_OPENED,
-    FEEDBACK_TRADE_UPDATE,
     SCORE_BREAKEVEN,
     SCORE_MAX,
     SCORE_MIN,

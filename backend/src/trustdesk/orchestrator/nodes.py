@@ -7,11 +7,13 @@ module, and returns state updates. Business logic stays in the modules.
 from __future__ import annotations
 
 import logging
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
-from trustdesk.orchestrator.state import PipelineState
 from trustdesk.strategist.strategist import decision_to_proposal
 from trustdesk.strategist.types import DecisionType
+
+if TYPE_CHECKING:
+    from trustdesk.orchestrator.state import PipelineState
 
 logger = logging.getLogger(__name__)
 

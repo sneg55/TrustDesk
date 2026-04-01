@@ -1,8 +1,8 @@
 """Tests for the reputation endpoint."""
 import pytest
 from httpx import ASGITransport, AsyncClient
-from trustdesk.api.app import create_app
 
+from trustdesk.api.app import create_app
 
 SAMPLE_REPUTATION = {
     "tier": "EXPLORER",

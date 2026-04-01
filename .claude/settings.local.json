@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh repo:*)",
+      "Bash(gh api:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(*)",
+      "Bash(uv --version)",
+      "Bash(mkdir -p /Users/sneg55/Documents/GitHub/TrustDesk/backend/src/trustdesk)",
+      "Bash(uv init:*)",
+      "Bash(uv *)",
+      "Bash( *)",
+      "Bash(uv run:*)",
+      "Bash(for mod:*)",
+      "Bash(do mkdir:*)",
+      "Bash(touch $mod/tests/__init__.py $mod/types.py $mod/constants.py)",
+      "Bash(done)",
+      "Bash(forge --version)",
+      "Bash(npm create:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(forge init:*)",
+      "Bash(forge build:*)",
+      "Bash(forge test:*)"
+    ]
+  }
+}

@@ -1,6 +1,7 @@
 """Tests for the health endpoint."""
 import pytest
 from httpx import ASGITransport, AsyncClient
+
 from trustdesk.api.app import create_app
 
 

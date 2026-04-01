@@ -1,8 +1,8 @@
 """Tests for the trades endpoints."""
 import pytest
 from httpx import ASGITransport, AsyncClient
-from trustdesk.api.app import create_app
 
+from trustdesk.api.app import create_app
 
 SAMPLE_TRADES = [
     {

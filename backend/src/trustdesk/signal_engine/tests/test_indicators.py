@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import pandas as pd
-import pytest
 
 from trustdesk.signal_engine.indicators import (
     compute_adx,

@@ -2,8 +2,12 @@
 
 from __future__ import annotations
 
-from trustdesk.orchestrator.state import PipelineState
+from typing import TYPE_CHECKING
+
 from trustdesk.orchestrator.types import NodeResult
+
+if TYPE_CHECKING:
+    from trustdesk.orchestrator.state import PipelineState
 
 
 class TestPipelineState:

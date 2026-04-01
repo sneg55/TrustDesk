@@ -3,9 +3,12 @@
 from __future__ import annotations
 
 import time
-from collections.abc import Callable
+from typing import TYPE_CHECKING
 
 from trustdesk.strategist.constants import CYCLE_INTERVALS, DEFAULT_CYCLE_INTERVAL
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 def get_cycle_interval(regime: str) -> int:

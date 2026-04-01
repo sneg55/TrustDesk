@@ -1,7 +1,7 @@
 """Tests for the in-process event bus."""
-import asyncio
 import pytest
-from trustdesk.api.events import EventBus, Event, EventType
+
+from trustdesk.api.events import Event, EventBus, EventType
 
 
 class TestEventType:

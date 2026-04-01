@@ -1,14 +1,12 @@
 # backend/src/trustdesk/risk_manager/tests/test_adaptive.py
 """Tests for adaptive parameter adjustments and drawdown defense."""
-import pytest
 
-from trustdesk.reputation.tiers import TierName
 from trustdesk.reputation.types import TierLimits
 from trustdesk.risk_manager.adaptive import (
     apply_adaptive_adjustments,
     get_drawdown_level,
 )
-from trustdesk.risk_manager.types import DrawdownLevel, PortfolioState, RiskParameters
+from trustdesk.risk_manager.types import DrawdownLevel, PortfolioState
 
 
 def _portfolio(**overrides: object) -> PortfolioState:

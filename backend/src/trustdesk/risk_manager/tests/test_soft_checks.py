@@ -3,8 +3,8 @@
 import pytest
 
 from trustdesk.risk_manager.soft_checks import (
-    parse_llm_response,
     build_soft_check_prompt,
+    parse_llm_response,
     run_soft_checks,
 )
 from trustdesk.risk_manager.types import CheckResult

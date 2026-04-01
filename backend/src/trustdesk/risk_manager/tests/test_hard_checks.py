@@ -1,6 +1,5 @@
 # backend/src/trustdesk/risk_manager/tests/test_hard_checks.py
 """Tests for deterministic hard checks."""
-import pytest
 
 from trustdesk.risk_manager.hard_checks import (
     check_daily_loss,

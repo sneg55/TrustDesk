@@ -2,14 +2,16 @@
 from __future__ import annotations
 
 import json
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import httpx
 
-from trustdesk.core.config import TrustDeskConfig
 from trustdesk.core.constants import ERROR_IDS
 from trustdesk.core.errors import IPFSError
 from trustdesk.core.logging import get_logger
+
+if TYPE_CHECKING:
+    from trustdesk.core.config import TrustDeskConfig
 
 log = get_logger(__name__)
 

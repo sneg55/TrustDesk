@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 
-class FeedbackStage(str, Enum):
+class FeedbackStage(StrEnum):
     """Three-stage reputation lifecycle."""
 
     TRADE_OPENED = "TRADE_OPENED"

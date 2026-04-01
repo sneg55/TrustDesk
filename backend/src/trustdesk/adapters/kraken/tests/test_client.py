@@ -2,9 +2,7 @@
 from __future__ import annotations
 
 from typing import Any
-from unittest.mock import AsyncMock, patch
-
-import pytest
+from unittest.mock import AsyncMock
 
 from trustdesk.adapters.kraken.client import KrakenClient
 from trustdesk.core.config import TrustDeskConfig

@@ -1,9 +1,11 @@
 """Tests for the WebSocket endpoint and event forwarding."""
 import asyncio
+
 import pytest
 from fastapi.testclient import TestClient
+
 from trustdesk.api.app import create_app
-from trustdesk.api.events import EventBus, Event, EventType
+from trustdesk.api.events import Event, EventBus, EventType
 from trustdesk.api.websocket import attach_websocket
 
 
@@ -51,7 +53,7 @@ class TestWebSocket:
 
     def test_disconnect_cleans_up(self, app, bus):
         client = TestClient(app)
-        with client.websocket_connect("/ws") as ws:
+        with client.websocket_connect("/ws"):
             pass  # Disconnect
         # Bus should have no lingering handlers after disconnect
         assert len(bus._handlers) == 0

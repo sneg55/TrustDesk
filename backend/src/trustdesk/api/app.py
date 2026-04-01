@@ -4,8 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from trustdesk.api.events import EventBus
 from trustdesk.api.routes.health import router as health_router
-from trustdesk.api.routes.trades import router as trades_router
 from trustdesk.api.routes.reputation import router as reputation_router
+from trustdesk.api.routes.trades import router as trades_router
 
 
 def create_app(event_bus: EventBus | None = None) -> FastAPI:

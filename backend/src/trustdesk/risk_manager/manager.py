@@ -3,13 +3,10 @@
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass, field
-from typing import Any
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, Any
 
-from trustdesk.reputation.engine import ReputationEngine
-from trustdesk.reputation.types import FeedbackRecord
 from trustdesk.risk_manager.adaptive import apply_adaptive_adjustments
-from trustdesk.risk_manager.circuit_breaker import CircuitBreaker
 from trustdesk.risk_manager.hard_checks import run_all_hard_checks
 from trustdesk.risk_manager.soft_checks import SoftEvaluator, run_soft_checks
 from trustdesk.risk_manager.types import (
@@ -18,6 +15,11 @@ from trustdesk.risk_manager.types import (
     RiskParameters,
     VerdictStatus,
 )
+
+if TYPE_CHECKING:
+    from trustdesk.reputation.engine import ReputationEngine
+    from trustdesk.reputation.types import FeedbackRecord
+    from trustdesk.risk_manager.circuit_breaker import CircuitBreaker
 
 logger = logging.getLogger(__name__)
 

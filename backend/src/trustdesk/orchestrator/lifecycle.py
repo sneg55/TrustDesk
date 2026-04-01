@@ -4,16 +4,19 @@ from __future__ import annotations
 
 import logging
 import time
-from collections.abc import Callable
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
+from typing import TYPE_CHECKING
 
 from trustdesk.orchestrator.constants import MAX_POSITION_DURATION_SECONDS
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 logger = logging.getLogger(__name__)
 
 
-class ExitReason(str, Enum):
+class ExitReason(StrEnum):
     """Why a position was closed."""
 
     TP1_HIT = "tp1_hit"

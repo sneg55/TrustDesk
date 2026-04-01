@@ -15,7 +15,15 @@ from trustdesk.adapters.kraken.types import (
 
 class TestTickerData:
     def test_from_values(self) -> None:
-        t = TickerData(pair="BTC/USD", ask=50100.0, bid=50000.0, last=50050.0, volume_24h=1234.5, high_24h=51000.0, low_24h=49000.0)
+        t = TickerData(
+            pair="BTC/USD",
+            ask=50100.0,
+            bid=50000.0,
+            last=50050.0,
+            volume_24h=1234.5,
+            high_24h=51000.0,
+            low_24h=49000.0,
+        )
         assert t.pair == "BTC/USD"
         assert t.ask == 50100.0
         assert t.bid == 50000.0
@@ -25,7 +33,15 @@ class TestTickerData:
         assert t.low_24h == 49000.0
 
     def test_spread(self) -> None:
-        t = TickerData(pair="BTC/USD", ask=50100.0, bid=50000.0, last=50050.0, volume_24h=0.0, high_24h=0.0, low_24h=0.0)
+        t = TickerData(
+            pair="BTC/USD",
+            ask=50100.0,
+            bid=50000.0,
+            last=50050.0,
+            volume_24h=0.0,
+            high_24h=0.0,
+            low_24h=0.0,
+        )
         assert t.spread == 100.0
 
 
