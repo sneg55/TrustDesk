@@ -1,1 +1,3 @@
-"""Signal Engine — deterministic computation, no LLM."""
+"""Signal Engine: deterministic market signal computation."""
+
+from __future__ import annotations
