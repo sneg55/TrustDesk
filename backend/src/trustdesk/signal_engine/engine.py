@@ -6,9 +6,12 @@ and orchestrates pure computation functions.
 
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING
 
 from trustdesk.schemas.signal_payload import SignalPayload
+
+logger = logging.getLogger(__name__)
 from trustdesk.signal_engine.alignment import (
     compute_alignment,
     compute_derived_values,
@@ -50,8 +53,9 @@ if TYPE_CHECKING:
 class SignalEngine:
     """Orchestrates one signal computation cycle."""
 
-    def __init__(self, provider: MarketDataProvider) -> None:
+    def __init__(self, provider: MarketDataProvider, strykr=None) -> None:
         self._provider = provider
+        self.strykr = strykr
 
     async def run_cycle(self, pair: str) -> SignalPayload:
         """Run one full signal computation cycle."""
@@ -67,7 +71,28 @@ class SignalEngine:
         # Use 15m for primary indicators
         df_15 = ohlc_map[15].df
 
-        return self._compute(pair, ticker, df_15, book, trades)
+        payload = self._compute(pair, ticker, df_15, book, trades)
+
+        if self.strykr:
+            base_symbol = pair.split("/")[0]
+            try:
+                signals_data = await self.strykr.signals(base_symbol)
+                payload.indicators["prism_overall_signal"] = signals_data.get("overall_signal", "neutral")
+                payload.indicators["prism_direction"] = signals_data.get("direction", "neutral")
+                payload.indicators["prism_strength"] = signals_data.get("strength", "weak")
+                payload.indicators["prism_net_score"] = signals_data.get("net_score", 0)
+            except Exception as e:
+                logger.warning("Strykr signals fetch failed for %s: %s", base_symbol, e)
+
+            try:
+                risk_data = await self.strykr.risk(base_symbol)
+                payload.indicators["prism_daily_volatility"] = risk_data.get("daily_volatility", 0.0)
+                payload.indicators["prism_current_drawdown"] = risk_data.get("current_drawdown", 0.0)
+                payload.indicators["prism_sharpe_ratio"] = risk_data.get("sharpe_ratio", 0.0)
+            except Exception as e:
+                logger.warning("Strykr risk fetch failed for %s: %s", base_symbol, e)
+
+        return payload
 
     def _compute(
         self, pair, ticker, df, book, trades

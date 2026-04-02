@@ -18,6 +18,23 @@ from trustdesk.signal_engine.types import (
 )
 
 
+def _make_mock_strykr() -> AsyncMock:
+    """Create a mock StrykrClient."""
+    client = AsyncMock()
+    client.signals.return_value = {
+        "overall_signal": "bullish",
+        "direction": "bullish",
+        "strength": "moderate",
+        "net_score": 1,
+    }
+    client.risk.return_value = {
+        "daily_volatility": 0.55,
+        "current_drawdown": 0.52,
+        "sharpe_ratio": -0.86,
+    }
+    return client
+
+
 def _mock_provider(
     pair: str = "BTCUSD",
     trend: float = 0.002,
@@ -153,3 +170,78 @@ class TestSignalEngine:
         assert provider.ohlc.call_count == 3  # 15m, 1H, 4H
         provider.orderbook.assert_called_once_with("BTCUSD", count=25)
         provider.recent_trades.assert_called_once_with("BTCUSD")
+
+
+class TestSignalEngineStrykr:
+    """Tests for Strykr/PRISM integration in the signal engine."""
+
+    @pytest.mark.asyncio()
+    async def test_run_cycle_without_strykr(self) -> None:
+        """Engine works exactly as before when strykr=None."""
+        provider = _mock_provider()
+        engine = SignalEngine(provider=provider, strykr=None)
+        signal = await engine.run_cycle("BTC/USD")
+        assert isinstance(signal, SignalPayload)
+        assert "prism_overall_signal" not in signal.indicators
+
+    @pytest.mark.asyncio()
+    async def test_run_cycle_with_strykr(self) -> None:
+        """Mock StrykrClient provides data merged into indicators dict."""
+        provider = _mock_provider()
+        mock_strykr = _make_mock_strykr()
+        engine = SignalEngine(provider=provider, strykr=mock_strykr)
+        signal = await engine.run_cycle("BTC/USD")
+        mock_strykr.signals.assert_awaited_once_with("BTC")
+        mock_strykr.risk.assert_awaited_once_with("BTC")
+        assert signal.indicators["prism_overall_signal"] == "bullish"
+        assert signal.indicators["prism_direction"] == "bullish"
+        assert signal.indicators["prism_strength"] == "moderate"
+        assert signal.indicators["prism_net_score"] == 1
+        assert signal.indicators["prism_daily_volatility"] == 0.55
+        assert signal.indicators["prism_current_drawdown"] == 0.52
+        assert signal.indicators["prism_sharpe_ratio"] == -0.86
+
+    @pytest.mark.asyncio()
+    async def test_run_cycle_strykr_signals_failure(self) -> None:
+        """Engine continues when strykr.signals() raises an exception."""
+        provider = _mock_provider()
+        mock_strykr = _make_mock_strykr()
+        mock_strykr.signals.side_effect = Exception("API down")
+        engine = SignalEngine(provider=provider, strykr=mock_strykr)
+        signal = await engine.run_cycle("BTC/USD")
+        assert "prism_overall_signal" not in signal.indicators
+        assert "prism_direction" not in signal.indicators
+        # risk should still work since it's a separate try/except
+        assert signal.indicators["prism_daily_volatility"] == 0.55
+
+    @pytest.mark.asyncio()
+    async def test_run_cycle_strykr_risk_failure(self) -> None:
+        """Engine continues when strykr.risk() raises an exception."""
+        provider = _mock_provider()
+        mock_strykr = _make_mock_strykr()
+        mock_strykr.risk.side_effect = Exception("API down")
+        engine = SignalEngine(provider=provider, strykr=mock_strykr)
+        signal = await engine.run_cycle("BTC/USD")
+        assert signal.indicators["prism_overall_signal"] == "bullish"
+        assert "prism_daily_volatility" not in signal.indicators
+        assert "prism_sharpe_ratio" not in signal.indicators
+
+    @pytest.mark.asyncio()
+    async def test_run_cycle_symbol_extraction(self) -> None:
+        """Base symbol is correctly extracted from pair for strykr call."""
+        provider = _mock_provider()
+        mock_strykr = _make_mock_strykr()
+        engine = SignalEngine(provider=provider, strykr=mock_strykr)
+        await engine.run_cycle("ETH/USD")
+        mock_strykr.signals.assert_awaited_once_with("ETH")
+        mock_strykr.risk.assert_awaited_once_with("ETH")
+
+    @pytest.mark.asyncio()
+    async def test_run_cycle_strykr_no_slash_pair(self) -> None:
+        """Pair without slash passes entire string as symbol."""
+        provider = _mock_provider()
+        mock_strykr = _make_mock_strykr()
+        engine = SignalEngine(provider=provider, strykr=mock_strykr)
+        await engine.run_cycle("BTCUSD")
+        mock_strykr.signals.assert_awaited_once_with("BTCUSD")
+        mock_strykr.risk.assert_awaited_once_with("BTCUSD")

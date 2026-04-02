@@ -76,13 +76,13 @@ def main() -> None:
     anthropic = _try_anthropic(config)
     chain = _try_chain(config)
     ipfs = _try_ipfs(config)
-    _strykr = _try_strykr(config)
+    strykr = _try_strykr(config)
 
     # -- Event bus for WebSocket --
     event_bus = EventBus()
 
     # -- Modules --
-    signal_engine = SignalEngine(provider=kraken)
+    signal_engine = SignalEngine(provider=kraken, strykr=strykr)
     strategist = Strategist(client=anthropic) if anthropic else None
     reputation_engine = ReputationEngine()
     circuit_breaker = CircuitBreaker()
