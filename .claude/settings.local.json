@@ -23,7 +23,11 @@
       "Bash(npm run:*)",
       "Bash(forge init:*)",
       "Bash(forge build:*)",
-      "Bash(forge test:*)"
+      "Bash(forge test:*)",
+      "Bash(docker compose:*)",
+      "Bash(psql postgresql://trustdesk:trustdesk@localhost:5432/trustdesk -c \"SELECT 1\")",
+      "Bash(psql postgresql://localhost:5432/postgres -c \"SELECT 1\")",
+      "Skill(dream)"
     ]
   }
 }
