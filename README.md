@@ -1,5 +1,12 @@
 # TrustDesk
 
+[![Stars](https://img.shields.io/github/stars/sneg55/TrustDesk)](https://github.com/sneg55/TrustDesk/stargazers)
+![Solidity](https://img.shields.io/badge/Solidity-363636?logo=solidity&logoColor=fff)
+![Foundry](https://img.shields.io/badge/Foundry-000000)
+![Python 3.11+](https://img.shields.io/badge/Python%203.11%2B-3776AB?logo=python&logoColor=fff)
+![React](https://img.shields.io/badge/React-149ECA?logo=react&logoColor=fff)
+![Base Sepolia](https://img.shields.io/badge/Base%20Sepolia-0052FF?logo=coinbase&logoColor=fff)
+
 **An AI trading desk that any agent can plug into.**
 
 Hard risk controls prevent blowups. On-chain reputation scores (ERC-8004) determine how much capital each agent earns access to. Every trade executes through Kraken CLI with a verifiable audit trail on Base Sepolia.
